@@ -1,5 +1,6 @@
 const path = require('path')
 module.exports = {
+    mode: "production",
     entry: "./src/main.js",
     output: {
         filename: 'bundle.js',
@@ -18,35 +19,6 @@ module.exports = {
                     options: {
                         limit: '2048'
                     }
-                }
-            },
-            {
-                test: /\.xml/,
-                use: 'xml-loader'
-            },
-            {
-                test: /\.csv/,
-                use: 'csv-loader'
-            },
-            {
-                test: /\.toml$/,
-                type: 'json',
-                parser: {
-                    parse: require('toml').parse
-                }
-            },
-            {
-                test: /\.yaml$/,
-                type: 'json',
-                parser: {
-                    parse: require(yamljs).parse
-                }
-            },
-            {
-                test: /\.json5$/,
-                type: 'json',
-                parser: {
-                    parse: 'json5.parse'
                 }
             },
         ]
