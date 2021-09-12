@@ -1,10 +1,16 @@
 const path = require('path')
+const htmlWebpackPlguin = require('html-webpack-plugin')
 module.exports = {
     mode: "production",
-    entry: "./src/main.js",
+    entry: {
+        index: "./src/main.js",
+        print: "./src/print.js"
+    },
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        // filename: 'bundle.js',
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+        clear: true
     },
     module: {
         rules: [
@@ -22,5 +28,10 @@ module.exports = {
                 }
             },
         ]
-    }
+    },
+    plugins: [
+        new htmlWebpackPlguin({
+            title: '管理输出'
+        })
+    ]
 }
