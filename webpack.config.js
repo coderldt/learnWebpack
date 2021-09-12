@@ -9,8 +9,8 @@ module.exports = {
     output: {
         // filename: 'bundle.js',
         filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-        clear: true
+        path: path.resolve(__dirname, 'dist')
+        // clear: true
     },
     module: {
         rules: [
@@ -31,7 +31,12 @@ module.exports = {
     },
     plugins: [
         new htmlWebpackPlguin({
-            title: '管理输出'
+            title: 'Output Management',
+            template: './index.html',
+            meta: {
+                'viewport' : 'width=device-width, initial-scale=1, shrink-to-fit=no',
+                keywords: '你的,我的,他的',
+            }
         })
     ]
 }
