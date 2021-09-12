@@ -2,12 +2,26 @@ const path = require('path')
 const webpack = require('webpack')
 const htmlWebpackPlguin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
     mode: "development",
     entry: {
-        index: "./src/main.js",
-        print: "./src/print.js"
+        index: {
+            import: './src/main.js',
+            // dependOn: 'shared',
+        },
+        print: "./src/print.js",
+        another: {
+            import: './src/another-module.js',
+            // dependOn: 'shared'
+        },
+        shared: ['lodash', 'moment']
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        }
     },
     output: {
         // filename: 'bundle.js',
@@ -51,6 +65,7 @@ module.exports = {
             filename: '[file].map[query]', // 和devServer冲突 https://github.com/webpack/webpack/issues/9732
         }),
         new CleanWebpackPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new BundleAnalyzerPlugin()
     ],
 }
