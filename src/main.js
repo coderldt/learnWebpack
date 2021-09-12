@@ -3,6 +3,8 @@ import moment from 'moment'
 
 import { printMe } from './print'
 
+import back from './assets/img/back.png'
+
 
 function component() {
     const ele = document.createElement('div')
@@ -13,6 +15,10 @@ function component() {
     btn.onclick = printMe
 
     ele.appendChild(btn)
+
+    const img = new Image()
+    img.src = back  
+    ele.appendChild(img)
 
     return ele
 }

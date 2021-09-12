@@ -18,15 +18,23 @@ module.exports = {
         },
         shared: ['lodash', 'moment']
     },
-    optimization: {
-        splitChunks: {
-            chunks: 'all'
-        }
-    },
+    // optimization: {
+    //     moduleIds: 'deterministic', // 官方说只会变更修改的文件，实测都一样
+    //     splitChunks: {
+    //         cacheGroups: {
+    //             vendor: {
+    //                 test: /[\\/]node_modules[\\/]/,
+    //                 name: 'vendors',
+    //                 chunks: 'all'
+    //             }
+    //         }
+    //     },
+    //     runtimeChunk: 'single', // 提取单独chunk 
+    // },
     output: {
         // filename: 'bundle.js',
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].[contenthash].js',
+        path: path.resolve(__dirname, '../dist'),
         // clean: true
     },
     devtool: 'inline-source-map', // 简单开启source-amp，可以使用SourceMapDevToolPlugin更细致的配置
@@ -43,6 +51,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif)$/,
+                include: path.resolve(__dirname, '../src/assets/img'),
                 use: {
                     loader: 'url-loader',
                     options: {
@@ -66,6 +75,11 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new BundleAnalyzerPlugin()
+        // dllplugin
+        new webpack.DllReferencePlugin({
+            context: path.resolve(__dirname, '..'), 
+            manifest: require('../public/vendor/vendor-manifest.json')
+        }),
+        // new BundleAnalyzerPlugin()
     ],
 }
