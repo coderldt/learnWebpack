@@ -4,20 +4,15 @@ const htmlWebpackPlguin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+var HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+
 module.exports = {
     mode: "development",
     entry: {
-        index: {
-            import: './src/main.js',
-            // dependOn: 'shared',
-        },
+        index: './src/main.js',
         print: "./src/print.js",
-        another: {
-            import: './src/another-module.js',
-            // dependOn: 'shared'
-        },
-        shared: ['lodash', 'moment']
+        another: './src/another-module.js',
+        // shared: ['lodash', 'moment']
     },
     // optimization: {
     //     moduleIds: 'deterministic', // 官方说只会变更修改的文件，实测都一样
@@ -76,47 +71,25 @@ module.exports = {
             filename: '[file].map[query]', // 和devServer冲突 https://github.com/webpack/webpack/issues/9732
         }),
         new CleanWebpackPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),
         // dllplugin
         // new webpack.DllReferencePlugin({
         //     context: path.resolve(__dirname, '..'), 
         //     manifest: require('../public/vendor/vendor-manifest.json')
         // }),
         // HardSourceWebpackPlugin
-        new HardSourceWebpackPlugin({
-            // Either an absolute path or relative to webpack's options.context.
-            cacheDirectory: 'node_modules/.cache/hard-source/[confighash]',
-            // Either a string of object hash function given a webpack config.
-            configHash: function(webpackConfig) {
-              // node-object-hash on npm can be used to build this.
-              return require('node-object-hash')({sort: false}).hash(webpackConfig);
-            },
-            // Either false, a string, an object, or a project hashing function.
-            environmentHash: {
-              root: process.cwd(),
-              directories: [],
-              files: ['package-lock.json', 'yarn.lock'],
-            },
-            // An object.
-            info: {
-              // 'none' or 'test'.
-              mode: 'none',
-              // 'debug', 'log', 'info', 'warn', or 'error'.
-              level: 'debug',
-            },
-            // Clean up large, old caches automatically.
-            cachePrune: {
-              // Caches younger than `maxAge` are not considered for deletion. They must
-              // be at least this (default: 2 days) old in milliseconds.
-              maxAge: 2 * 24 * 60 * 60 * 1000,
-              // All caches together must be larger than `sizeThreshold` before any
-              // caches will be deleted. Together they must be at least this
-              // (default: 50 MB) big in bytes.
-              sizeThreshold: 50 * 1024 * 1024
-            },
-          }
-        ),
-
+        new HardSourceWebpackPlugin(),
+        new HardSourceWebpackPlugin.ParallelModulePlugin({
+            // How to launch the extra processes. Default:
+            fork: (fork, compiler, webpackBin) => fork(
+                webpackBin(),
+                ['--config', __filename], {
+                silent: true,
+            }
+            ),
+            numWorkers: () => 4,
+            minModules: 20,
+        }),
         // new BundleAnalyzerPlugin()
     ],
 }
