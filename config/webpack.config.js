@@ -4,8 +4,6 @@ const htmlWebpackPlguin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-var HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-
 module.exports = {
     mode: "development",
     entry: {
@@ -77,19 +75,6 @@ module.exports = {
         //     context: path.resolve(__dirname, '..'), 
         //     manifest: require('../public/vendor/vendor-manifest.json')
         // }),
-        // HardSourceWebpackPlugin
-        new HardSourceWebpackPlugin(),
-        new HardSourceWebpackPlugin.ParallelModulePlugin({
-            // How to launch the extra processes. Default:
-            fork: (fork, compiler, webpackBin) => fork(
-                webpackBin(),
-                ['--config', __filename], {
-                silent: true,
-            }
-            ),
-            numWorkers: () => 4,
-            minModules: 20,
-        }),
         // new BundleAnalyzerPlugin()
     ],
 }
