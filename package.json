@@ -4,9 +4,10 @@
   "main": "index.js",
   "mode": "production",
   "scripts": {
-    "dev": "webpack --config config/webpack.config.js",
+    "dev": "webpack --config config/webpack.common.js",
     "watch": "webpack --watch",
-    "serve": "webpack serve --open --config config/webpack.config.js",
+    "build": "webpack --config config/webpack.prod.js",
+    "serve": "webpack serve --open --config config/webpack.dev.js",
     "dll": "webpack --config config/webpack.dll.conf.js"
   },
   "license": "MIT",
@@ -30,6 +31,7 @@
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.2.0",
+    "webpack-merge": "^5.8.0",
     "xml-loader": "^1.2.1",
     "yamljs": "^0.3.0"
   }
