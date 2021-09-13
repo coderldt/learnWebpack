@@ -4,13 +4,21 @@ const htmlWebpackPlguin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
 module.exports = {
     mode: "development",
     entry: {
-        index: './src/main.js',
+        index: {
+            import: './src/main.js',
+            dependOn: "shared"
+        },
         print: "./src/print.js",
-        another: './src/another-module.js',
-        // shared: ['lodash', 'moment']
+        another: {
+            import: "./src/another-module.js",
+            dependOn: "shared"
+        },
+        shared: ['lodash', 'moment']
     },
     // optimization: {
     //     moduleIds: 'deterministic', // 官方说只会变更修改的文件，实测都一样
@@ -45,6 +53,10 @@ module.exports = {
                 use: ['style-loader', 'css-loader']
             },
             {
+                test: /\.vue/,
+                use: 'vue-loader'
+            },
+            {
                 test: /\.(png|jpg|gif)$/,
                 include: path.resolve(__dirname, '../src/assets/img'),
                 use: {
@@ -71,10 +83,12 @@ module.exports = {
         new CleanWebpackPlugin(),
         // new webpack.HotModuleReplacementPlugin(),
         // dllplugin
-        // new webpack.DllReferencePlugin({
-        //     context: path.resolve(__dirname, '..'), 
-        //     manifest: require('../public/vendor/vendor-manifest.json')
-        // }),
+        new webpack.DllReferencePlugin({
+            context: path.resolve(__dirname, '.'), 
+            manifest: require('../public/vendor/vendor-manifest.json')
+        }),
         // new BundleAnalyzerPlugin()
+
+        new VueLoaderPlugin()
     ],
 }

@@ -41,4 +41,4 @@
 > 报错 TypeError: Cannot read properties of undefined (reading 'tap')， 待解决
 - 结果 webpack5没有兼容，可能内置了，通过降低webpack@4.22.2版本解决，需要重新写一些配置，例如html-webpack-plugin 插件，详情见hard-source ... 分支
 
-- three-loader
+- [three-loader](https://webpack.js.org/loaders/thread-loader/)

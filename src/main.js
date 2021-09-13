@@ -1,5 +1,7 @@
 import _ from 'lodash'
 import moment from 'moment'
+import './component.js'
+
 
 import { printMe } from './print'
 
@@ -24,6 +26,7 @@ function component() {
 }
 
 document.body.appendChild(component())
+
 
 if (module.hot) {
     module.hot.accept('./print.js', function() {
