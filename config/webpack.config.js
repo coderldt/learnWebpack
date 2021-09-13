@@ -39,7 +39,7 @@ module.exports = {
     },
     devtool: 'inline-source-map', // 简单开启source-amp，可以使用SourceMapDevToolPlugin更细致的配置
     devServer: {
-        static: './dist',
+        static: '../dist',
         compress: true,
         hot: true
     },
@@ -77,7 +77,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         // dllplugin
         new webpack.DllReferencePlugin({
-            context: path.resolve(__dirname, '..'), 
+            context: path.resolve(__dirname, '.'), 
             manifest: require('../public/vendor/vendor-manifest.json')
         }),
         // new BundleAnalyzerPlugin()

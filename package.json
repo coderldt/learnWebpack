@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack --config config/webpack.config.js",
     "watch": "webpack --watch",
-    "serve": "webpack serve --open",
+    "serve": "webpack serve --open --config config/webpack.config.js",
     "dll": "webpack --config config/webpack.dll.conf.js"
   },
   "license": "MIT",
