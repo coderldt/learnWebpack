@@ -3,8 +3,6 @@ import moment from 'moment'
 import './component.js'
 
 
-import { printMe } from './print'
-
 import back from './assets/img/back.png'
 
 
@@ -14,7 +12,12 @@ function component() {
 
     const btn = document.createElement('button')
     btn.innerHTML = 'Click me and check the console!';
-    btn.onclick = printMe
+    btn.onclick = e => import(/* webpackChunkName: "print" */ './print.js').then(module => {
+        console.log(module);
+        const print = module.default;
+   
+        print();
+    });
 
     ele.appendChild(btn)
 
@@ -28,10 +31,10 @@ function component() {
 document.body.appendChild(component())
 
 
-if (module.hot) {
-    module.hot.accept('./print.js', function() {
-        document.body.removeChild(element);
-        element = component(); // 重新渲染 "component"，以便更新 click 事件处理函数
-        document.body.appendChild(element);
-    })
-}
+// if (module.hot) {
+//     module.hot.accept('./print.js', function() {
+//         document.body.removeChild(element);
+//         element = component(); // 重新渲染 "component"，以便更新 click 事件处理函数
+//         document.body.appendChild(element);
+//     })
+// }
