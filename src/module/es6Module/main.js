@@ -8,4 +8,4 @@ function getMsg() {
     console.log(a, obj);
 }
 
-export { a, obj, getMsg }
+export { a, obj, getMsg } 

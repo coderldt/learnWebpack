@@ -44,7 +44,7 @@ function commonjsTest() {
     document.body.appendChild(btn)
     btn.onclick = (e) => import('./print.js')
 }
-// commonjsTest()
+commonjsTest()
 
 // if (module.hot) {
 //     module.hot.accept('./print.js', function() {

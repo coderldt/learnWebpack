@@ -1,6 +1,6 @@
-import { a, obj, getMsg } from './main'
+// import { a, getObj, getMsg } from './middle'
 
-// a = 456 // 报错
-obj.name = '王五'
+// // a = 456 // 报错
+// getObj().name = '王五'
 
-console.log(a, obj, getMsg());
+// console.log(a, getObj(), getMsg());
